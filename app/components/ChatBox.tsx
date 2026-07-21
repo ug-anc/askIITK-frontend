@@ -18,6 +18,8 @@ const ANC_FACTS = [
   "💡 Need career assistance? ANC organizes sessions for competitive exams and higher education."
 ];
 
+const BOOK_EMOJIS = ["📖", "📚", "📑", "📜"];
+
 export default function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([
     { question: "What all can you do?", answer: "I can answer questions from the UG Manual" }
@@ -41,7 +43,7 @@ export default function ChatBox() {
 
     const interval = setInterval(() => {
       setCurrentFactIndex((prev) => (prev + 1) % ANC_FACTS.length);
-    }, 2500);
+    }, 1200);
 
     return () => clearInterval(interval);
   }, [isLoading]);
@@ -174,13 +176,19 @@ export default function ChatBox() {
             className="flex-1 resize-none overflow-hidden max-h-48 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200 disabled:opacity-60"
           />
 
-          <button
-            type="submit"
-            disabled={isLoading || !input.trim()}
-            className="inline-flex h-[46px] min-w-[90px] items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-medium text-white transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "..." : "Ask"}
-          </button>
+<button
+  type="submit"
+  disabled={isLoading || !input.trim()}
+  className="inline-flex h-[46px] min-w-[90px] items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-medium text-white transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+>
+  {isLoading ? (
+    <span className="inline-block animate-pulse text-base">
+      {BOOK_EMOJIS[currentFactIndex % BOOK_EMOJIS.length]}
+    </span>
+  ) : (
+    "Ask"
+  )}
+</button>
         </form>
       </div>
     </div>
