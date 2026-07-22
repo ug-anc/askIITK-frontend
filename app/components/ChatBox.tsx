@@ -20,6 +20,8 @@ const ANC_FACTS = [
 
 const BOOK_EMOJIS = ["📖", "📚", "📑", "📜"];
 const MIN_LOADING_DURATION_MS = 7000;
+const FACT_FADE_MS = 500;
+const FACT_HOLD_MS = 3000;
 
 export default function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([
@@ -37,28 +39,26 @@ export default function ChatBox() {
   
   const [sessionId] = useState(() => crypto.randomUUID());
 
-  // 2. Rotate ANC facts every 2.5 seconds while waiting for the server
+  // 2. While waiting for the server: fade a fact in, hold it for 3s fully
+  // visible, fade it completely out, then fade the next one in.
   useEffect(() => {
     if (!isLoading) return;
 
-    setCurrentFactIndex(0); // Reset to first fact on new request
-    setFactOpacity(1);
+    let timeoutId: number;
 
-    let swapTimeout: number | undefined;
-    const interval = setInterval(() => {
-      setFactOpacity(0.5);
-      if (swapTimeout) clearTimeout(swapTimeout);
-
-      swapTimeout = window.setTimeout(() => {
-        setCurrentFactIndex((prev) => (prev + 1) % ANC_FACTS.length);
-        setFactOpacity(1);
-      }, 600);
-    }, 1200);
-
-    return () => {
-      clearInterval(interval);
-      if (swapTimeout) clearTimeout(swapTimeout);
+    const hide = () => {
+      setFactOpacity(0);
+      timeoutId = window.setTimeout(advance, FACT_FADE_MS);
     };
+    const advance = () => {
+      setCurrentFactIndex((prev) => (prev + 1) % ANC_FACTS.length);
+      setFactOpacity(1);
+      timeoutId = window.setTimeout(hide, FACT_HOLD_MS);
+    };
+
+    timeoutId = window.setTimeout(hide, FACT_HOLD_MS);
+
+    return () => window.clearTimeout(timeoutId);
   }, [isLoading]);
 
   // Dynamically expands or shrinks the textarea height
@@ -82,6 +82,7 @@ export default function ChatBox() {
 
     setInput("");
     setIsLoading(true);
+    setCurrentFactIndex(0);
     setFactOpacity(1);
 
     // Use a special internal flag "__LOADING__" instead of static "Thinking..."
@@ -178,8 +179,8 @@ export default function ChatBox() {
               >
                 {isLoadingMessage ? (
                   <span
-                    key={`${currentFactIndex}-${isLoading ? "loading" : "idle"}`}
-                    className={`block transition-opacity duration-1000 ${factOpacity === 1 ? "opacity-100" : "opacity-0"}`}
+                    className={`block transition-opacity ease-in-out ${factOpacity === 1 ? "opacity-100" : "opacity-0"}`}
+                    style={{ transitionDuration: `${FACT_FADE_MS}ms` }}
                   >
                     {ANC_FACTS[currentFactIndex]}
                   </span>
