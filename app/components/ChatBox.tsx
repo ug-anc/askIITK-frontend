@@ -89,11 +89,6 @@ export default function ChatBox() {
     setMessages((prev) => [...prev, { question: userQuery, answer: "__LOADING__" }]);
 
     try {
-      console.log({
-        "query": userQuery,
-        "session_id": sessionId
-      });
-      
       const response = await fetch(API_QUERY_URL, {
         method: "POST",
         headers: {
@@ -101,7 +96,7 @@ export default function ChatBox() {
         },
         body: JSON.stringify({
           query: userQuery,
-          session_id: "75e6d6d8-f860-466d-a70d-f28e2025b682",
+          session_id: sessionId,
         }),
       });
 
