@@ -55,13 +55,13 @@ export default function AnCBackdrop() {
         src="/anc-logo-mark.png"
         alt=""
         className="absolute opacity-[0.22]"
-        style={{ left: "-6%", bottom: "-8%", width: "28%", maxWidth: 440 }}
+        style={{ left: "-6%", bottom: "-8%", width: "30%", maxWidth: 480 }}
       />
       <img
         src="/anc-logo-mark.png"
         alt=""
         className="absolute opacity-20"
-        style={{ right: "-4%", top: "-6%", width: "19%", maxWidth: 300 }}
+        style={{ right: "-4%", top: "-6%", width: "24%", maxWidth: 480 }}
       />
     </div>
   );
