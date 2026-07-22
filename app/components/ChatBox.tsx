@@ -19,6 +19,7 @@ const ANC_FACTS = [
 ];
 
 const BOOK_EMOJIS = ["📖", "📚", "📑", "📜"];
+const MIN_LOADING_DURATION_MS = 7000;
 
 export default function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([
@@ -26,6 +27,7 @@ export default function ChatBox() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [factOpacity, setFactOpacity] = useState(1);
   
   // State to track the active fact index
   const [currentFactIndex, setCurrentFactIndex] = useState(0);
@@ -40,12 +42,23 @@ export default function ChatBox() {
     if (!isLoading) return;
 
     setCurrentFactIndex(0); // Reset to first fact on new request
+    setFactOpacity(1);
 
+    let swapTimeout: number | undefined;
     const interval = setInterval(() => {
-      setCurrentFactIndex((prev) => (prev + 1) % ANC_FACTS.length);
+      setFactOpacity(0.5);
+      if (swapTimeout) clearTimeout(swapTimeout);
+
+      swapTimeout = window.setTimeout(() => {
+        setCurrentFactIndex((prev) => (prev + 1) % ANC_FACTS.length);
+        setFactOpacity(1);
+      }, 600);
     }, 1200);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (swapTimeout) clearTimeout(swapTimeout);
+    };
   }, [isLoading]);
 
   // Dynamically expands or shrinks the textarea height
@@ -65,8 +78,11 @@ export default function ChatBox() {
     if (!input.trim() || isLoading) return;
 
     const userQuery = input.trim();
+    const loadingDeadline = Date.now() + MIN_LOADING_DURATION_MS;
+
     setInput("");
     setIsLoading(true);
+    setFactOpacity(1);
 
     // Use a special internal flag "__LOADING__" instead of static "Thinking..."
     setMessages((prev) => [...prev, { question: userQuery, answer: "__LOADING__" }]);
@@ -88,31 +104,38 @@ export default function ChatBox() {
         }),
       });
 
+      let finalAnswer = "";
+      let finalIsError = false;
+
       if (response.status === 429) {
-        setMessages((prev) => [
-          ...prev.slice(0, -1),
-          { 
-            question: userQuery, 
-            answer: "Slow down a bit! You've reached the request limit. Please try again in a minute.", 
-            isError: true 
-          }
-        ]);
-        return;
+        finalAnswer = "Slow down a bit! You've reached the request limit. Please try again in a minute.";
+        finalIsError = true;
+      } else {
+        if (!response.ok) {
+          throw new Error(`Server returned structural error status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        finalAnswer = data.answer;
       }
 
-      if (!response.ok) {
-        throw new Error(`Server returned structural error status: ${response.status}`);
+      const remainingWait = Math.max(0, loadingDeadline - Date.now());
+      if (remainingWait > 0) {
+        await new Promise<void>((resolve) => window.setTimeout(resolve, remainingWait));
       }
-
-      const data = await response.json();
 
       setMessages((prev) => [
         ...prev.slice(0, -1),
-        { question: userQuery, answer: data.answer }
+        { question: userQuery, answer: finalAnswer, isError: finalIsError }
       ]);
 
     } catch (error) {
       console.error("API Communication Failure:", error);
+      const remainingWait = Math.max(0, loadingDeadline - Date.now());
+      if (remainingWait > 0) {
+        await new Promise<void>((resolve) => window.setTimeout(resolve, remainingWait));
+      }
+
       setMessages((prev) => [
         ...prev.slice(0, -1),
         { 
@@ -145,16 +168,24 @@ export default function ChatBox() {
             <div key={idx} className="flex flex-col gap-1">
               <p className="font-semibold text-sm text-slate-800">You: {msg.question}</p>
               <p
-                className={`text-sm whitespace-pre-wrap px-4 py-3 rounded-xl max-w-[100%] self-start transition-all duration-300 ${
+                className={`text-sm whitespace-pre-wrap px-4 py-3 rounded-xl max-w-[100%] self-start transition-all duration-500 ${
                   isLoadingMessage
-                    ? "text-amber-800 bg-amber-50 border border-amber-200/60 animate-pulse"
+                    ? "text-amber-800 bg-amber-50 border border-amber-200/60"
                     : msg.isError
                     ? "text-red-700 bg-red-50 border border-red-100"
                     : "text-slate-600 bg-slate-100"
                 }`}
               >
-                {/* 3. Render rotating ANC fact if currently loading */}
-                {isLoadingMessage ? ANC_FACTS[currentFactIndex] : msg.answer}
+                {isLoadingMessage ? (
+                  <span
+                    key={`${currentFactIndex}-${isLoading ? "loading" : "idle"}`}
+                    className={`block transition-opacity duration-1000 ${factOpacity === 1 ? "opacity-100" : "opacity-0"}`}
+                  >
+                    {ANC_FACTS[currentFactIndex]}
+                  </span>
+                ) : (
+                  msg.answer
+                )}
               </p>
             </div>
           );

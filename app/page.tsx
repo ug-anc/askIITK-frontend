@@ -2,12 +2,13 @@
 
 import Header from "./components/Header";
 import ChatBox from "./components/ChatBox";
+import AnCDinoGame from "./components/AnCDinoGame";
 
 export default function Chat() {
   return (
     <div className="min-h-screen bg-slate-50">
       <Header />
-      <main className="flex h-[calc(100vh-80px)] items-end justify-center px-4 pb-8 sm:px-6 lg:px-8">
+      <main className="flex h-[calc(100vh-80px)] items-end justify-center gap-6 px-4 pb-8 sm:px-6 lg:px-8">
         <ChatBox />
       </main>
     </div>
