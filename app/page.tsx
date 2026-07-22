@@ -2,7 +2,6 @@
 
 import Header from "./components/Header";
 import ChatBox from "./components/ChatBox";
-import AnCDinoGame from "./components/AnCDinoGame";
 import AnCBackdrop from "./components/AnCBackdrop";
 
 export default function Chat() {
