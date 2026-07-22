@@ -1,4 +1,4 @@
-const DEFAULT_API_URL = "https://askiitk-greetings-306291778036.asia-south2.run.app";
+const DEFAULT_API_URL = "https://acadiq-306291778036.asia-south2.run.app";
 
 const rawApiUrl = process.env.NEXT_PUBLIC_API_URL?.trim() || process.env.API_URL?.trim();
 
