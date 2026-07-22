@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="w-full border-b border-slate-200 bg-white/90 backdrop-blur-sm mb-2">
+    <header className="w-full bg-transparent mb-2">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <img
