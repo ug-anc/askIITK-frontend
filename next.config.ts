@@ -11,6 +11,7 @@ import type { NextConfig } from "next";
 import { API_BASE_URL } from "./lib/api";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   async rewrites() {
     return [
       {
