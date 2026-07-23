@@ -18,6 +18,9 @@ const ANC_FACTS = [
   "💡 Need career assistance? ANC organizes sessions for competitive exams and higher education."
 ];
 
+const UG_MANUAL_DISCLAIMER =
+  "Disclaimer: This response is for informational purposes only. Students must refer to the official UG Manual before making any academic decisions, and the UG Manual shall be the final and binding authority in all such matters.";
+
 const BOOK_EMOJIS = ["📖", "📚", "📑", "📜"];
 const MIN_LOADING_DURATION_MS = 7000;
 const FACT_FADE_MS = 500;
@@ -183,6 +186,9 @@ export default function ChatBox() {
                   msg.answer
                 )}
               </p>
+              {!isLoadingMessage && (
+                <p className="text-xs italic text-slate-400 px-1">{UG_MANUAL_DISCLAIMER}</p>
+              )}
             </div>
           );
         })}
