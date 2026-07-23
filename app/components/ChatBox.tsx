@@ -22,7 +22,6 @@ const UG_MANUAL_DISCLAIMER =
   "Disclaimer: For informational purposes only. Students should consult the official UG Manual before making academic decisions. As policies update periodically, please verify current rules directly with the UG Office.";
 
 const BOOK_EMOJIS = ["📖", "📚", "📑", "📜"];
-const MIN_LOADING_DURATION_MS = 7000;
 const FACT_FADE_MS = 500;
 const FACT_HOLD_MS = 3000;
 
@@ -81,7 +80,6 @@ export default function ChatBox() {
     if (!input.trim() || isLoading) return;
 
     const userQuery = input.trim();
-    const loadingDeadline = Date.now() + MIN_LOADING_DURATION_MS;
 
     setInput("");
     setIsLoading(true);
@@ -118,11 +116,6 @@ export default function ChatBox() {
         finalAnswer = data.answer;
       }
 
-      const remainingWait = Math.max(0, loadingDeadline - Date.now());
-      if (remainingWait > 0) {
-        await new Promise<void>((resolve) => window.setTimeout(resolve, remainingWait));
-      }
-
       setMessages((prev) => [
         ...prev.slice(0, -1),
         { question: userQuery, answer: finalAnswer, isError: finalIsError }
@@ -130,10 +123,6 @@ export default function ChatBox() {
 
     } catch (error) {
       console.error("API Communication Failure:", error);
-      const remainingWait = Math.max(0, loadingDeadline - Date.now());
-      if (remainingWait > 0) {
-        await new Promise<void>((resolve) => window.setTimeout(resolve, remainingWait));
-      }
 
       setMessages((prev) => [
         ...prev.slice(0, -1),
@@ -204,7 +193,7 @@ export default function ChatBox() {
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything about IITK..."
+            placeholder="Ask anything from the UG manual..."
             disabled={isLoading}
             className="flex-1 resize-none overflow-hidden max-h-48 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200 disabled:opacity-60"
           />

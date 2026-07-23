@@ -20,7 +20,7 @@ export default function Header() {
           />
           <div className="flex flex-col">
             <span className="text-lg font-semibold tracking-tight text-slate-900">
-              Ask IITK
+              Ask AnC
             </span>
             <span className="text-sm text-slate-500">ANC Council</span>
           </div>

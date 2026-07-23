@@ -2,38 +2,18 @@
   {
     "id": "adwaaiit-pande",
     "name": "Adwaaiit Pande",
-    "rollNumber": "23XXXX",
+    "rollNumber": "230085",
     "image": "https://ui-avatars.com/api/?name=Adwaaiit+Pande&background=4f46e5&color=fff&size=256&bold=true",
     "contact": "+91 XXXXX XXXXX",
     "email": "TO-DO@gmail.com",
     "github": "https://github.com/",
-    "quote": "Quote goes here"
+    "quote": "Dare. Dream. Excel."
   },
   {
     "id": "akshat-dhote",
     "name": "Akshat Dhote",
     "rollNumber": "230095",
     "image": "/images/akshat.jpg",
-    "contact": "+91 XXXXX XXXXX",
-    "email": "TO-DO@gmail.com",
-    "github": "https://github.com/",
-    "quote": "Quote goes here"
-  },
-  {
-    "id": "aryamann-srivastava",
-    "name": "Aryamann Srivastava",
-    "rollNumber": "23XXXX",
-    "image": "https://ui-avatars.com/api/?name=Aryamann+Srivastava&background=0ea5e9&color=fff&size=256&bold=true",
-    "contact": "+91 XXXXX XXXXX",
-    "email": "TO-DO@gmail.com",
-    "github": "https://github.com/",
-    "quote": "Quote goes here"
-  },
-  {
-    "id": "vinayak-dalmia",
-    "name": "Vinayak Dalmia",
-    "rollNumber": "23XXXX",
-    "image": "https://ui-avatars.com/api/?name=Vinayak+Dalmia&background=0ea5e9&color=fff&size=256&bold=true",
     "contact": "+91 XXXXX XXXXX",
     "email": "TO-DO@gmail.com",
     "github": "https://github.com/",
@@ -47,7 +27,7 @@
     "contact": "+91 XXXXX XXXXX",
     "email": "TO-DO@gmail.com",
     "github": "https://github.com/aaahanamehrotra",
-    "quote": "Quote goes here"
+    "quote": "From ideation to production"
   },
   {
     "id": "archi-mawandia",

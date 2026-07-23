@@ -5,8 +5,8 @@ import TeamCard, { type TeamMember } from "../components/TeamCard";
 import teamData from "@/data/team.json";
 
 export const metadata: Metadata = {
-  title: "Meet the Team — Ask IITK",
-  description: "The team behind Ask IITK, built for IITK's Academic and Career Council.",
+  title: "Meet the Team — Ask AnC",
+  description: "The team behind Ask AnC, built for Academic and Career Council.",
 };
 
 const team = teamData as TeamMember[];
@@ -23,7 +23,7 @@ export default function TeamPage() {
           </h1>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className="grid grid-cols-1 gap-6 justify-items-center sm:grid-cols-2 lg:grid-cols-4">
           {team.map((member) => (
             <TeamCard key={member.id} member={member} />
           ))}

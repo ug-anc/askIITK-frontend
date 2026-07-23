@@ -9,7 +9,7 @@ type QuestionFormProps = {
 
 export default function QuestionForm({
   onAsk,
-  placeholder = "Ask anything about IITK...",
+  placeholder = "Ask anything from the UG manual...",
 }: QuestionFormProps) {
   const [question, setQuestion] = useState("");
 

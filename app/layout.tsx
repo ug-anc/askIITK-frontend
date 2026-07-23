@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ask IITK — Academic Policy Assistant",
+  title: "Ask AnC — Academic Policy Assistant",
   description: "Answers only from official college documents — every claim cited.",
 };
 
