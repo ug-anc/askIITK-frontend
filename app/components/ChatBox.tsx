@@ -19,7 +19,7 @@ const ANC_FACTS = [
 ];
 
 const UG_MANUAL_DISCLAIMER =
-  "Disclaimer: This response is for informational purposes only. Students must refer to the official UG Manual before making any academic decisions, and the UG Manual shall be the final and binding authority in all such matters.";
+  "Disclaimer: For informational purposes only. Students should consult the official UG Manual before making academic decisions. As policies update periodically, please verify current rules directly with the UG Office.";
 
 const BOOK_EMOJIS = ["📖", "📚", "📑", "📜"];
 const MIN_LOADING_DURATION_MS = 7000;
