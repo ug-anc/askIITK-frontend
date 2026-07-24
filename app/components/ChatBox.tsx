@@ -9,13 +9,13 @@ interface Message {
   isError?: boolean;
 }
 
-// 1. Array of ANC facts to rotate during loading states
-const ANC_FACTS = [
-  "💡 Did you know? ANC coordinates undergraduate research opportunities through SURGE.",
-  "💡 ANC manages academic mentoring through the Student Guide Program (SGP).",
-  "💡 Looking for course reviews? ANC maintains academic repositories and course feedback.",
-  "💡 ANC works closely with the Senate Undergraduate Committee (SUGC) on academic policies.",
-  "💡 Need career assistance? ANC organizes sessions for competitive exams and higher education."
+// 1. Array of AnC facts to rotate during loading states
+const AnC_FACTS = [
+  "💡 Did you know? AnC coordinates undergraduate research opportunities through SURGE.",
+  "💡 AnC manages academic mentoring through the Student Guide Program (SGP).",
+  "💡 Looking for course reviews? AnC maintains academic repositories and course feedback.",
+  "💡 AnC works closely with the Senate Undergraduate Committee (SUGC) on academic policies.",
+  "💡 Need career assistance? AnC organizes sessions for competitive exams and higher education."
 ];
 
 const UG_MANUAL_DISCLAIMER =
@@ -53,7 +53,7 @@ export default function ChatBox() {
       timeoutId = window.setTimeout(advance, FACT_FADE_MS);
     };
     const advance = () => {
-      setCurrentFactIndex((prev) => (prev + 1) % ANC_FACTS.length);
+      setCurrentFactIndex((prev) => (prev + 1) % AnC_FACTS.length);
       setFactOpacity(1);
       timeoutId = window.setTimeout(hide, FACT_HOLD_MS);
     };
@@ -146,7 +146,7 @@ export default function ChatBox() {
   }
 
   return (
-    <div className="mt-8 w-full max-w-2xl mx-auto border border-slate-100 bg-white shadow-sm overflow-hidden h-full flex flex-col">
+    <div className="w-full max-w-2xl mx-auto border border-slate-100 bg-white shadow-sm overflow-hidden h-full flex flex-col">
       {/* Messages Render Timeline */}
       <div className="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-4">
         {messages.map((msg, idx) => {
@@ -169,7 +169,7 @@ export default function ChatBox() {
                     className={`block transition-opacity ease-in-out ${factOpacity === 1 ? "opacity-100" : "opacity-0"}`}
                     style={{ transitionDuration: `${FACT_FADE_MS}ms` }}
                   >
-                    {ANC_FACTS[currentFactIndex]}
+                    {AnC_FACTS[currentFactIndex]}
                   </span>
                 ) : (
                   msg.answer
@@ -186,14 +186,14 @@ export default function ChatBox() {
 
       {/* Dynamic Textarea Ingestion Engine */}
       <div className="p-4">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row items-end">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row items-stretch">
           <textarea
             ref={textareaRef}
             rows={1}
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything from the UG manual..."
+            placeholder="Ask a question..."
             disabled={isLoading}
             className="flex-1 resize-none overflow-hidden max-h-48 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:bg-white focus:ring-2 focus:ring-slate-200 disabled:opacity-60"
           />
@@ -201,7 +201,7 @@ export default function ChatBox() {
 <button
   type="submit"
   disabled={isLoading || !input.trim()}
-  className="inline-flex h-[46px] min-w-[90px] items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-medium text-white transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed"
+  className="inline-flex h-full min-h-[46px] min-w-[90px] items-center justify-center rounded-xl bg-slate-900 px-5 text-sm font-medium text-white transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed"
 >
   {isLoading ? (
     <span className="inline-block animate-pulse text-base">
